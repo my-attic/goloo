@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>GolOO</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+    <style>
+        body {
+            position: relative;
+            padding-top: 60px; /* fixed navbar */
+        }
+    </style>
+<body>
+
+    <div class="navbar navbar-inverse navbar-fixed-top" style="background-color: #357ebd;">
+        <span class="navbar-brand" style="color: #ffffff;">GolOO>></span>
+        <ul class="nav navbar-nav">
+            <!--<li><a style="color: #ffffff;" href="#">somewhere ...</a></li>-->
+        </ul>
+
+    </div>
+
+    <div class="container">
+
+
+    </div>
+
+    <script src="js/vendors/yepnope.1.5.4-min.js"></script>
+
+    <script>
+
+        yepnope({
+            load : [
+                "bootstrap3/css/bootstrap.min.css",
+                "js/vendors/jquery-1.9.1.min.js",
+                "bootstrap3/js/bootstrap.min.js",
+                "js/vendors/underscore-min.js",
+                "js/vendors/backbone-min.js",
+                "js/lazyview.js",
+                "js/namespace.js",
+                "js/views/application.view.js",
+                "js/routers/main.router.js"
+            ],
+            complete : function() {
+                console.log("All scripts loaded, starting application")
+                yepnope("js/application.js")
+
+            }
+        })
+
+    </script>
+</body>
+</html>
