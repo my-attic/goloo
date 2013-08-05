@@ -7,14 +7,15 @@
     <style>
         body {
             position: relative;
-            padding-top: 60px; /* fixed navbar */
+            padding-top: 70px; /* fixed navbar */
         }
     </style>
 <body>
 
     <div class="navbar navbar-inverse navbar-fixed-top" style="background-color: #357ebd;">
-        <span class="navbar-brand" style="color: #ffffff;">GolOO>></span>
+        <span class="navbar-brand" style="color: #ffffff;">GolOO ?</span>
         <ul class="nav navbar-nav">
+            <li><a style="color: #ffffff;" href="#">minimalistic golo web framework for Google App Engine Java</a></li>
             <!--<li><a style="color: #ffffff;" href="#">somewhere ...</a></li>-->
         </ul>
 
@@ -22,6 +23,105 @@
 
     <div class="container">
 
+            <blockquote>
+                <p>Why <b>GolOO</b> ? Because it reminds me of <b>Golu</b> (Corsica translation of <b>Golo</b>)</p>
+            </blockquote>
+
+        <div class="panel">
+            <div class="panel-heading">
+                <h3 class="panel-title">Technical stack</h3>
+            </div>
+            <ul>
+                <li>Java
+                    <ul>
+                        <li>Golo</li>
+                        <li>Jackson</li>
+                    </ul>
+                </li>
+                <li>Javascript
+                    <ul>
+                        <li>Backbone</li>
+                        <li>Underscore</li>
+                        <li>jQuery</li>
+                        <li>YepNope</li>
+                    </ul>
+                </li>
+                <li>HTML / CSS
+                    <ul>
+                        <li>Bootstrap 3</li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+        <div class="panel">
+            <div class="panel-heading">
+                <h3 class="panel-title">Source code</h3>
+            </div>
+            <a href="https://github.com/k33g/goloo">https://github.com/k33g/goloo</a>
+        </div>
+
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">Routes</h3>
+            </div>
+            <pre><code>
+match {
+    when http:route():equals("GET:/humans") then humans():getAll(http)
+    when http:route():equals("POST:/humans") then humans():insert(http)
+    otherwise null
+}
+            </code></pre>
+        </div>
+
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">Controllers</h3>
+            </div>
+            <pre><code>
+function humans = -> DynamicObject()
+    :getAll(|this, http| {
+        http:contentType("application/json")
+
+        http:write(json():stringify(array[
+            map[["firstName","Bob"],["lastName","Morane"]],
+            map[["firstName","John"],["lastName","Doe"]],
+            map[["firstName","Jane"],["lastName","Doe"]]
+        ]))
+    })
+    :insert(|this, http| {
+        http:contentType("application/json")
+
+        let h = json():toMap(http:data())
+        println(h:get("firstName"))
+        println(h:get("lastName"))
+
+        http:write(json():stringify(h))
+    })
+            </code></pre>
+        </div>
+
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">Client</h3>
+            </div>
+            <pre><code>
+//GET request
+$.ajax({
+      type:"GET"
+    , url:"/humans"
+    , success:function(data){console.log(data)}
+})
+
+//POST request
+$.ajax({
+      type:"POST"
+    , url:"/humans"
+    , data:'{"firstName":"John", "lastName":"Doe"}'
+    , success:function(data){console.log(data)}
+})
+            </code></pre>
+        </div>
 
     </div>
 
