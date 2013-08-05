@@ -2,18 +2,19 @@ module core.router
 
 import routes
 
-function httpParameters = |verb, request, response|->DynamicObject()
+function httpParameters = |verb, request, response, data|->DynamicObject()
     :verb(verb)
     :request(request)
     :response(response)
-    :define("uri", |this|->this:request():getRequestURI())
+    :data(data)
+    :uri(request:getRequestURI())
+    :route(verb+":"+request:getRequestURI())
     :define("contentType", |this, content_type|->this:response():setContentType(content_type))
     :define("write", |this, content|->this:response():getWriter():println(content))
 
-# InputStreamReader reader = new InputStreamReader(req.getInputStream(), Charsets.UTF_8);
-# String code = CharStreams.toString(reader);
 
-function router = |verb, request, response| {
-    routes(httpParameters(verb, request, response))
-    #TODO: querystring, data
+
+
+function router = |verb, request, response, data| {
+    routes(httpParameters(verb, request, response, data))
 }
