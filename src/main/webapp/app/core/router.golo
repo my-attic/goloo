@@ -9,7 +9,10 @@ function httpParameters = |verb, request, response, data|->DynamicObject()
     :data(data)
     :uri(request:getRequestURI())
     :route(verb+":"+request:getRequestURI())
-    :define("contentType", |this, content_type|->this:response():setContentType(content_type))
+    :define("contentType", |this, content_type| {
+        this:response():setContentType(content_type)
+        return this
+    })
     :define("write", |this, content|->this:response():getWriter():println(content))
 
 
