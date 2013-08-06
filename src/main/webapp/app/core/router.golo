@@ -14,6 +14,10 @@ function httpParameters = |verb, request, response, data|->DynamicObject()
         return this
     })
     :define("write", |this, content|->this:response():getWriter():println(content))
+    :define("parametersAfter", |this, partUri| {
+        #println("URI : " + this:uri())
+        return java.net.URLDecoder.decode(this:uri():split(partUri):get(1))
+    })
 
 
 
