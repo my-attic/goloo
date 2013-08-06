@@ -16,6 +16,9 @@ function httpParameters = |verb, request, response, data|->DynamicObject()
     })
     :define("write", |this, content|->this:response():getWriter():println(content))
     :define("writeToJson", |this, content|-> this:contentType("application/json"):write(json():stringify(content)))
+    :define("writeToHtml", |this, content|-> this:contentType("text/html"):write(content))
+    :define("writeToText", |this, content|-> this:contentType("text/plain"):write(content))
+    :define("writeToXml", |this, content|-> this:contentType("application/xml"):write(content))
     :define("parametersAfter", |this, partUri| {
         #println("URI : " + this:uri())
         return java.net.URLDecoder.decode(this:uri():split(partUri):get(1))
@@ -28,3 +31,12 @@ function httpParameters = |verb, request, response, data|->DynamicObject()
 function router = |verb, request, response, data| {
     routes(httpParameters(verb, request, response, data))
 }
+
+    #"application/json"
+    #"text/html"
+    #"text/plain"
+    #"text/event-stream"
+    #"text/xml"
+    #"application/xml"
+    #"text/css"
+    #"application/javascript"
