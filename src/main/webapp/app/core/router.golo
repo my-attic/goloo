@@ -1,6 +1,7 @@
 module core.router
 
 import routes
+import core.json
 
 function httpParameters = |verb, request, response, data|->DynamicObject()
     :verb(verb)
@@ -14,12 +15,14 @@ function httpParameters = |verb, request, response, data|->DynamicObject()
         return this
     })
     :define("write", |this, content|->this:response():getWriter():println(content))
+    :define("writeToJson", |this, content|-> this:contentType("application/json"):write(json():stringify(content)))
     :define("parametersAfter", |this, partUri| {
         #println("URI : " + this:uri())
         return java.net.URLDecoder.decode(this:uri():split(partUri):get(1))
     })
+    :define("dataToMap", |this| -> json():toMap(this:data()))
 
-
+    #TODO:writeToText, writeToHtml
 
 
 function router = |verb, request, response, data| {

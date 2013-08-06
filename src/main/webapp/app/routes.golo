@@ -1,6 +1,5 @@
 module routes
 
-import core.json
 import controllers.humans
 import controllers.hello
 
@@ -18,7 +17,7 @@ function routes = |http| {
         when http:route():equals("GET:/humans") then humans():getAll(http)
         when http:route():equals("POST:/humans") then humans():insert(http)
         when http:route():startsWith("GET:/hello/") then sayHello(http)
-        otherwise http:contentType("application/json"):write(json():stringify(map[["message","404!"]]))
+        otherwise http:writeToJson( map[["message","404!"]] )
     }
 
     # $.ajax({type:"GET",url:"/humans",success:function(data){console.log(data)}})

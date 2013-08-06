@@ -1,21 +1,23 @@
 module controllers.humans
 
-import core.json
+
 import core.data
 
 function humans = -> DynamicObject()
     :getAll(|this, http| {
-        http:contentType("application/json")
-        http:write(json():stringify(array[
+
+        http:writeToJson(array[
             map[["firstName","Bob"],["lastName","Morane"]],
             map[["firstName","John"],["lastName","Doe"]],
             map[["firstName","Jane"],["lastName","Doe"]]
-        ]))
+        ])
     })
     :insert(|this, http| {
-        http:contentType("application/json")
+
         println(http:data())
-        let h = json():toMap(http:data())
+
+        let h = http:dataToMap()
+
         println(h:get("firstName"))
         println(h:get("lastName"))
 
@@ -30,6 +32,6 @@ function humans = -> DynamicObject()
 
         datastore:put(human)
 
-        http:write(json():stringify(human:getProperties()))
+        http:writeToJson(human:getProperties())
     })
 
