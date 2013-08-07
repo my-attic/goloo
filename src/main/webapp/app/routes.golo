@@ -1,6 +1,8 @@
 module routes
 
+import core.http
 import controllers.humans
+import controllers.authentication
 import controllers.hello
 
 
@@ -14,6 +16,8 @@ function routes = |http| {
     println("========================================")
 
     match {
+        when http:route():equals("GET:/test") then humans():test(http)
+        when http:route():equals("GET:/login") then authentication():authenticate(http)
         when http:route():equals("GET:/humans") then humans():getAll(http)
         when http:route():startsWith("GET:/humans/") then humans():fetch(http)
         when http:route():equals("POST:/humans") then humans():insert(http)
