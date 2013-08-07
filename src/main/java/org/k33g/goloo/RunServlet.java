@@ -22,7 +22,6 @@ public class RunServlet extends HttpServlet {
         InputStreamReader reader = new InputStreamReader(req.getInputStream(), Charsets.UTF_8);
         String data = CharStreams.toString(reader);
 
-
         try {
             ret = scriptsLoader.module("/core/router.golo")
                     .method("router", Object.class, Object.class, Object.class, Object.class)
