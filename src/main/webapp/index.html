@@ -140,15 +140,18 @@ function humans = -> DynamicObject()
     })
     :delete(|this, http| { # DELETE:/humans/:id
 
-        let id = http:parametersAfter("/humans/")
-        let datastore = Store()
-        let human = datastore:getById("human", id)
+        # delete only if admin
 
-        datastore:delete(human)
-
-        human:setProperty("deleted", true)
-
-        http:writeToJson(human:getProperties())
+        secure():admin({ # if current logged user is admin
+            let id = http:parametersAfter("/humans/")
+            let datastore = Store()
+            let human = datastore:getById("human", id)
+            datastore:delete(human)
+            human:setProperty("deleted", true)
+            http:writeToJson(human:getProperties())
+        },{ # if current logged user isn't admin
+            http:writeToJson( map[["message","Don't even think about this!"]] )
+        })
     })
             </code></pre>
         </div>
