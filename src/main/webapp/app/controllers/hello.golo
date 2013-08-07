@@ -1,5 +1,7 @@
 module controllers.hello
 
+import core.http
+
 function sayHello = |http| {
     let choice = http:parametersAfter("/hello/")
 
