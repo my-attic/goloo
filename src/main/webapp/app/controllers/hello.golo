@@ -3,7 +3,8 @@ module controllers.hello
 import core.http
 
 function sayHello = |http| {
-    let choice = http:parametersAfter("/hello/")
+    #if "/" null pointer exception
+    let choice = http:parameters():get(0)
 
     match {
         when choice:equals("html") then http:writeToHtml("<B>Hello Goloo</B>")
@@ -17,7 +18,7 @@ function sayHello = |http| {
                     <body>Don't forget me this weekend!</body>
                 </note>
             """)
-        otherwise http:writeToJson( map[["message",http:parametersAfter("/hello/")]] )
+        otherwise http:writeToJson( map[["message",http:parameters()]] )
     }
 
 }

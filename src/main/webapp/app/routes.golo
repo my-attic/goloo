@@ -5,6 +5,8 @@ import controllers.humans
 import controllers.authentication
 import controllers.hello
 
+import controllers.simple
+
 
 #=== ROUTES ===
 function routes = |http| {
@@ -16,14 +18,17 @@ function routes = |http| {
     println("========================================")
 
     match {
-        when http:route():equals("GET:/test") then humans():test(http)
-        when http:route():equals("GET:/login") then authentication():authenticate(http)
-        when http:route():equals("GET:/humans") then humans():getAll(http)
-        when http:route():startsWith("GET:/humans/") then humans():fetch(http)
-        when http:route():equals("POST:/humans") then humans():insert(http)
-        when http:route():startsWith("PUT:/humans") then humans():update(http)
-        when http:route():startsWith("DELETE:/humans/") then humans():delete(http)
-        when http:route():startsWith("GET:/hello/") then sayHello(http)
+        when http:GET("/test")              then humans():test(http)
+        when http:GET("/login")             then authentication():authenticate(http)
+        when http:GET("/authenticate")      then authentication():ajaxAuthenticate(http)
+        when http:GET("/simple/:var")       then simpleWithParams(http)
+        when http:GET("/simple")            then simple(http)
+        when http:GET("/humans")            then humans():getAll(http)
+        when http:GET("/humans/:var")       then humans():fetch(http)
+        when http:POST("/humans")           then humans():insert(http)
+        when http:PUT("/humans/:var")       then humans():update(http)
+        when http:DELETE("/humans/:var")    then humans():delete(http)
+        when http:GET("/hello/:var")        then sayHello(http)
         otherwise http:writeToJson( map[["message","404!"]] )
     }
 

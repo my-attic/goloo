@@ -37,14 +37,14 @@ function humans = -> DynamicObject()
         http:writeToJson(human:getProperties())
     })
     :fetch(|this, http| { # GET:/humans/:id
-        let id = http:parametersAfter("/humans/")
+        let id = http:parameters():get(0)
 
         let human = Store():getById("human", id)
 
         http:writeToJson(human:getProperties())
     })
     :update(|this, http| {
-        let id = http:parametersAfter("/humans/")
+        let id = http:parameters():get(0)
         let h = http:dataToMap()
 
         let datastore = Store()
@@ -63,7 +63,7 @@ function humans = -> DynamicObject()
 
         # delete only if admin
         secure():admin({ # if current logged user is admin
-            let id = http:parametersAfter("/humans/")
+            let id = http:parameters():get(0)
             let datastore = Store()
             let human = datastore:getById("human", id)
             datastore:delete(human)
