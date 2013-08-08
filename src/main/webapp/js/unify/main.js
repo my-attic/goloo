@@ -1,7 +1,8 @@
 $(function() {
 
     window.application = new App.Views.ApplicationView({
-        //initialize properties
+        currentUser : new App.Models.AuthenticatedUser()
+
     });
 
     window.router = new App.Routers.MainRouter({application : application});

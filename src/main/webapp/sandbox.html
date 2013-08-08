@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>GolOO</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+    <style>
+
+        body {
+            position: relative;
+            padding-top: 70px; /* fixed navbar */
+        }
+    </style>
+    <link href="bootstrap3/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+<body>
+
+<div class="navbar navbar-inverse navbar-fixed-top" style="background-color: #357ebd;">
+    <ul class="nav navbar-nav">
+        <li><a style="color: #ffffff;" href="#">GolOO</a></li>
+    </ul>
+
+</div>
+
+<div class="container">
+
+    <div class="authenticate-view pull-right">
+        <a class="user"></a> <a class="authenticate" href="#"></a>
+    </div>
+
+    <script class="authenticate-view-template" type="text/template">
+        <% if(currentUser.loggedIn) { %>
+            <a><%= currentUser.nickName %> | admin:<%= currentUser.admin %> | mail:<%= currentUser.email %></a>
+            <a class="label label-info" href="<%= currentUser.logoutUrl %>"> LogOut</a>
+        <% } else { %>
+            <a>Who are you ?</a>
+            <a class="label label-info" href="<%= currentUser.loginUrl %>"> LogIn</a>
+        <% } %>
+    </script>
+</div>
+
+<div class="container">
+
+    <blockquote>
+        <p>Hello World from GolOO</p>
+    </blockquote>
+
+    <div class="panel">
+        <div class="panel-heading">
+            <h3 class="panel-title">Lorre Ipsum</h3>
+        </div>
+
+    </div>
+
+</div>
+
+<script src="js/vendors/yepnope.1.5.4-min.js"></script>
+
+<script>
+
+    yepnope({
+        load : [
+            "js/vendors/jquery-1.9.1.min.js",
+            "bootstrap3/js/bootstrap.min.js",
+            "js/vendors/underscore-min.js",
+            "js/vendors/backbone-min.js",
+            //--- Namespace ---
+            "js/namespace.js",
+            //--- Features ---
+            // - authentication
+            "js/features/authentication/authentication.js",
+            // - one view to rule them all
+            "js/unify/unify.js",
+            "js/unify/router.js"
+        ],
+        complete : function() {
+            console.log("All scripts loaded, starting application")
+            yepnope("js/unify/main.js")
+
+        }
+    })
+
+</script>
+</body>
+</html>
+

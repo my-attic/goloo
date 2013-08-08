@@ -36,4 +36,28 @@ augment controllers.authentication.types.authentication  {
         }
     }
 
+
+    function ajaxAuthenticate = |this, http| {
+        let user = currentUser()
+
+        if user:loggedIn() is true {
+            http:writeToJson(map[
+                  ["loggedIn", true]
+                , ["nickName", user:nickName()]
+                , ["admin", user:admin()]
+                , ["email", user:email()]
+                , ["id", user:id()]
+                , ["logoutUrl", user:logoutUrl("/sandbox.html")]
+            ])
+
+        } else {
+
+            http:writeToJson(map[
+                  ["loggedIn", false]
+                , ["loginUrl", user:loginUrl("/sandbox.html")]
+            ])
+
+        }
+    }
+
 }
