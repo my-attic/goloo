@@ -17,6 +17,8 @@ public class Store {
         String uniqueID = java.util.UUID.randomUUID().toString();
         Entity e = new Entity(entityName);
         e.setProperty("id", uniqueID);
+
+
         return e;
     }
 
@@ -26,6 +28,10 @@ public class Store {
 
     public List<Entity> getAll(String entityName, int limit) {
        return this.service.prepare(new Query(entityName)).asList(FetchOptions.Builder.withLimit(limit));
+    }
+
+    public List<Entity> getAll(String entityName, int limit, int offset) {
+        return this.service.prepare(new Query(entityName)).asList(FetchOptions.Builder.withLimit(limit).offset(offset));
     }
     /*TODO: other query methods
         https://developers.google.com/appengine/docs/java/javadoc/com/google/appengine/api/datastore/FetchOptions
@@ -40,12 +46,19 @@ public class Store {
     }
 
     private String entityName = "";
-    private int limit = 0;
     private String field = "";
+    private FetchOptions fetchOptions = null;
 
     public Store get(String entityName, int limit) {
         this.entityName = entityName;
-        this.limit = limit;
+        this.fetchOptions =FetchOptions.Builder.withLimit(limit);
+        return this;
+    }
+
+    public Store get(String entityName, int limit, int offset) {
+        this.entityName = entityName;
+        this.fetchOptions =FetchOptions.Builder.withLimit(limit).offset(offset);
+        //this.limit = limit;
         return this;
     }
 
@@ -56,37 +69,37 @@ public class Store {
 
     public List<Entity> isEqualTo(Object what) {
         Query q =new Query(this.entityName).addFilter(this.field, Query.FilterOperator.EQUAL,what);
-        return this.service.prepare(q).asList(FetchOptions.Builder.withLimit(this.limit));
+        return this.service.prepare(q).asList(this.fetchOptions);
     }
 
     public List<Entity> isNotEqualTo(Object what) {
         Query q =new Query(this.entityName).addFilter(this.field, Query.FilterOperator.NOT_EQUAL,what);
-        return this.service.prepare(q).asList(FetchOptions.Builder.withLimit(this.limit));
+        return this.service.prepare(q).asList(this.fetchOptions);
     }
 
     public List<Entity> isIn(Object what) {
         Query q =new Query(this.entityName).addFilter(this.field, Query.FilterOperator.IN,what);
-        return this.service.prepare(q).asList(FetchOptions.Builder.withLimit(this.limit));
+        return this.service.prepare(q).asList(this.fetchOptions);
     }
 
     public List<Entity> isGreaterThan(Object what) {
         Query q =new Query(this.entityName).addFilter(this.field, Query.FilterOperator.GREATER_THAN,what);
-        return this.service.prepare(q).asList(FetchOptions.Builder.withLimit(this.limit));
+        return this.service.prepare(q).asList(this.fetchOptions);
     }
 
     public List<Entity> isGreaterOrEqualThan(Object what) {
         Query q =new Query(this.entityName).addFilter(this.field, Query.FilterOperator.GREATER_THAN_OR_EQUAL,what);
-        return this.service.prepare(q).asList(FetchOptions.Builder.withLimit(this.limit));
+        return this.service.prepare(q).asList(this.fetchOptions);
     }
 
     public List<Entity> isLessThan(Object what) {
         Query q =new Query(this.entityName).addFilter(this.field, Query.FilterOperator.LESS_THAN,what);
-        return this.service.prepare(q).asList(FetchOptions.Builder.withLimit(this.limit));
+            return this.service.prepare(q).asList(this.fetchOptions);
     }
 
     public List<Entity> isLessOrEqualThan(Object what) {
         Query q =new Query(this.entityName).addFilter(this.field, Query.FilterOperator.LESS_THAN_OR_EQUAL,what);
-        return this.service.prepare(q).asList(FetchOptions.Builder.withLimit(this.limit));
+        return this.service.prepare(q).asList(this.fetchOptions);
     }
 
 

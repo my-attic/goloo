@@ -51,6 +51,9 @@ public class RunServlet extends HttpServlet {
 
     public void init() {
         try {
+
+            //(new ScriptsLoader((new File("core")).getAbsolutePath())).loadAll();
+
             /* Load all external golo scripts (in app directory) */
             scriptsLoader.loadAll();
             scriptsLoader.module("/boot.golo")

@@ -4,6 +4,7 @@ import fr.insalyon.citi.golo.compiler.GoloClassLoader;
 import fr.insalyon.citi.golo.compiler.GoloCompilationException;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.InputStream;
 import java.util.HashMap;
 
 public class ScriptsLoader {
@@ -24,7 +25,7 @@ public class ScriptsLoader {
                 findGoloScripts(f.getAbsolutePath());
             }
             else {
-                if(f.getAbsoluteFile().getName().endsWith(this.extension) && !f.getName().startsWith("ext.")) {
+                if(f.getAbsoluteFile().getName().endsWith(this.extension)) {
                     System.out.println( "Loading : " + f.getAbsoluteFile() );
                     try {
                         Class<?> module = module = classLoader.load(
@@ -52,6 +53,17 @@ public class ScriptsLoader {
         this.findGoloScripts(this.pathToParse);
     }
 
+    public void loadGoloResource(String resourcePath, String goloScript) {
+        //InputStream is = ClassLoader.getSystemResourceAsStream(resourcePath+goloScript);
+
+        InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream(resourcePath+goloScript);
+
+        Class<?> module = classLoader.load(
+                goloScript,
+                is
+        );
+        this.modules.put(goloScript, module);
+    }
 
     public ScriptsLoader(String pathToParse) {
         this.modules = new HashMap<String, Class<?>>();

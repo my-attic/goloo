@@ -1,4 +1,5 @@
 App.Models.AuthenticatedUser = Backbone.Model.extend({
+
     /*
      loggedIn (boolean)
      logoutUrl
@@ -8,7 +9,7 @@ App.Models.AuthenticatedUser = Backbone.Model.extend({
      email
      id
      */
-    urlRoot : "/authenticate"
+    urlRoot : "/login"
 });
 
 App.Views.AuthenticateView = Backbone.View.extend({

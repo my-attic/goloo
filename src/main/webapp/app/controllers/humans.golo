@@ -1,78 +1,72 @@
 module controllers.humans
 
-import core.data
 import core.users
 import core.http
 import core.security
 
+import models.human
+
+
+
 function getAll = |http| { # GET:/humans
 
-    let humans = Store():getAll("human", 10)
-    let humansArray = list[]
-    humans:each(|human| {
-        println(human:getProperty("firstName")+" "+human:getProperty("lastName"))
-        humansArray:add(human:getProperties())
+    let humans = Humans():getAll(10)
+    let humansList = list[]
+
+    humans:models():each(|human| {
+
+        println(human:getField("firstName")+" "+human:getField("lastName"))
+        humansList:add(human:getFields())
     })
 
-    http:writeToJson(humansArray)
+    http:writeToJson(humansList)
 }
 
 function insert = |http| { # POST:/humans
 
     let h = http:dataToMap()
 
-    println(h:get("firstName"))
-    println(h:get("lastName"))
+    let human = Human()
 
-    let datastore = Store()
+    human:setField("firstName", h:get("firstName"))
+    human:setField("lastName", h:get("lastName"))
+    human:setField("when", java.util.Date())
 
-    let human = datastore:entity("human")
+    human:save()
+    http:writeToJson(human:getFields())
 
-    human:setProperty("firstName", h:get("firstName"))
-    human:setProperty("lastName", h:get("lastName"))
-    human:setProperty("when", java.util.Date())
-
-    datastore:put(human)
-
-    http:writeToJson(human:getProperties())
 }
 
 function fetch = |http| { # GET:/humans/:id
-     let id = http:parameters():get(0)
 
-     let human = Store():getById("human", id)
+     let human = Human():getById(http:parameters():get(0))
 
-     http:writeToJson(human:getProperties())
- }
+     http:writeToJson(human:getFields())
+}
 
 
 function update = |http| {
-    let id = http:parameters():get(0)
+
     let h = http:dataToMap()
+    let human = Human():getById(http:parameters():get(0))
 
-    let datastore = Store()
+    human:setField("firstName", h:get("firstName"))
+    human:setField("lastName", h:get("lastName"))
+    human:setField("when", java.util.Date())
 
-    let human = datastore:getById("human", id)
+    human:save()
 
-    human:setProperty("firstName", h:get("firstName"))
-    human:setProperty("lastName", h:get("lastName"))
-    human:setProperty("when", java.util.Date())
-
-    datastore:put(human)
-
-    http:writeToJson(human:getProperties())
+    http:writeToJson(human:getFields())
 }
 
 function delete = |http| {
 
     # delete only if admin
     secure():admin({ # if current logged user is admin
-        let id = http:parameters():get(0)
-        let datastore = Store()
-        let human = datastore:getById("human", id)
-        datastore:delete(human)
-        human:setProperty("deleted", true)
-        http:writeToJson(human:getProperties())
+        let human = Human():getById(http:parameters():get(0))
+        human:delete()
+        human:setField("deleted", true)
+        http:writeToJson(human:getFields())
     },{ # if current logged user isn't admin
         http:writeToJson( map[["message","Don't even think about this!"]] )
     })
@@ -81,8 +75,16 @@ function delete = |http| {
 
 # This is a test about queries
 function test = |http| {
-    let humans = Store():get("human",10):where("firstName"):isEqualTo("BOB")
-    println(humans)
-    http:writeToJson( map[["message","Yesssss!"]] )
+
+    let humansList = list[]
+
+    Humans():select(10)
+        :where("firstName"):isEqualTo("BOB")
+            :models():each(|human| {
+                humansList:add(human:getFields())
+            })
+
+    http:writeToJson(humansList)
+
 }
 

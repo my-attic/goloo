@@ -11,6 +11,7 @@ augment core.http.types.httpParameters {
     function route = |this| -> this:verb() + ":" + this:request():getRequestURI()
     function contentType = |this, content_type| {
         this:response():setContentType(content_type)
+        #this:response():setCharacterEncoding("UTF-8")
         return this
     }
     function write = |this, content| -> this:response():getWriter():println(content)
