@@ -6,8 +6,6 @@ import core.security
 
 import models.human
 
-
-
 function getAll = |http| { # GET:/humans
 
     let humans = Humans():getAll(10)
