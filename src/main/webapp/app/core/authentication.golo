@@ -19,14 +19,14 @@ augment core.authentication.types.authentication  {
                 , ["admin", user:admin()]
                 , ["email", user:email()]
                 , ["id", user:id()]
-                , ["logoutUrl", user:logoutUrl("/index.html")]
+                , ["logoutUrl", user:logoutUrl("/")]
             ])
 
         } else {
 
             http:writeToJson(map[
                   ["loggedIn", false]
-                , ["loginUrl", user:loginUrl("/index.html")]
+                , ["loginUrl", user:loginUrl("/")]
             ])
 
         }
