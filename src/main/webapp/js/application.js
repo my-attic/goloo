@@ -3,7 +3,9 @@ $(function() {
     window.router = new App.Routers.MainRouter({
 
         applicationView : new App.Views.ApplicationView({
+
             currentUser : new App.Models.AuthenticatedUser(),
+
             tips : new App.Collections.Tips([
                 new App.Models.Tip({file:"001-routes.md"}),
                 new App.Models.Tip({file:"002-models.md"}),

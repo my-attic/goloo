@@ -15,6 +15,7 @@
         <h1>GolOO</h1>
         <p>minimalistic <b>Golo</b> web framework for Google App Engine (Java)</p>
         <a class="label label-info" href="https://github.com/k33g/goloo"> github.com/k33g/goloo</a>
+        <span id="loading" class="label label-warning">Loading data ... Please don't go! Just a few seconds :)</span>
     </div>
     <div class="container">
 
@@ -22,7 +23,7 @@
             <div class="col-lg-12">
                     <div class="panel">
                         <div class="authenticated-view pull-right">
-                            <a class="user">Please</a> <a class="authenticate" href="#">Wait ...</a>
+                            <a class="user"></a> <a class="authenticate" href="#"></a>
                         </div>
                         <script class="authenticated-view-template" type="text/template">
                             <% if(currentUser.loggedIn) { %>
@@ -129,7 +130,7 @@
                 , "js/models/Post.js"
                 , "js/views/BlogView.js"
                 //--- Router(s) ---
-                , "js/router/Router.js"
+                , "js/routers/Router.js"
             ],
             complete : function() {
                 console.log("All scripts loaded, starting application")
